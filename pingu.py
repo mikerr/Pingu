@@ -37,7 +37,7 @@ def rescan():
     for i in range(255):
       hosts.append(subnet + str(i))
 
-    pool = ThreadPool(255)
+    pool = ThreadPool(100)
     results = pool.map(ping, hosts)
 
     livehosts.sort(key=lambda x:tuple(map(int, x.split('.'))))
