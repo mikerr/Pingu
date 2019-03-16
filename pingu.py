@@ -7,6 +7,11 @@ import socket
 app=Tk()
 app.title("Pingu - ping subnet")
 
+label = Label(app, text="Current IP:").pack(anchor=W)
+
+textbox = Entry(app)
+textbox.pack(anchor=W)
+
 listbox = Listbox(app)
 listbox.pack(fill="both", expand=True)
 
@@ -32,6 +37,8 @@ def rescan():
     listbox.delete(0,END)
 
     ip = getip()
+    textbox.insert(0,ip)
+
     subnet = '.'.join(ip.split('.')[:3]) + '.'
 
     for i in range(255):
@@ -51,7 +58,7 @@ def rescan():
         listbox.insert(END,host + "    " + hostname)
 
 button=Button(app,text="Rescan",command=rescan)
-button.pack()
+button.pack(fill=X)
 
 rescan()
 mainloop()
