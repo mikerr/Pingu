@@ -5,6 +5,7 @@ import subprocess
 import socket
 
 app=Tk()
+app.minsize(250,30)
 app.title("Pingu - ping subnet")
 
 label = Label(app, text="Current IP:").pack(anchor=W)
@@ -12,8 +13,16 @@ label = Label(app, text="Current IP:").pack(anchor=W)
 textbox = Entry(app)
 textbox.pack(anchor=W)
 
-listbox = Listbox(app)
-listbox.pack(fill="both", expand=True)
+button=Button(app,text="Rescan")
+button.pack(side=BOTTOM,fill=X)
+
+scrollbar = Scrollbar(app)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = Listbox(app, yscrollcommand=scrollbar.set)
+listbox.pack(side=LEFT, fill=BOTH, expand=True)
+
+scrollbar.config(command=listbox.yview)
 
 def ping(host):
 
@@ -35,6 +44,7 @@ def rescan():
     hosts = []
 
     listbox.delete(0,END)
+    textbox.delete(0,END)
 
     ip = getip()
     textbox.insert(0,ip)
@@ -57,8 +67,7 @@ def rescan():
             hostname = ''
         listbox.insert(END,host + "    " + hostname)
 
-button=Button(app,text="Rescan",command=rescan)
-button.pack(fill=X)
+button.config(command=rescan)
 
 rescan()
 mainloop()
