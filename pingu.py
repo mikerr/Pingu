@@ -6,12 +6,6 @@ import socket
 
 app=Tk()
 app.minsize(250,30)
-app.title("Pingu - ping subnet")
-
-label = Label(app, text="Current IP:").pack(anchor=W)
-
-textbox = Entry(app)
-textbox.pack(anchor=W)
 
 button=Button(app,text="Rescan")
 button.pack(side=BOTTOM,fill=X)
@@ -44,10 +38,9 @@ def rescan():
     hosts = []
 
     listbox.delete(0,END)
-    textbox.delete(0,END)
 
     ip = getip()
-    textbox.insert(0,ip)
+    app.title("Pingu - " + ip)
 
     subnet = '.'.join(ip.split('.')[:3]) + '.'
 
