@@ -1,22 +1,12 @@
 #!/usr/bin/python3
 from tkinter import *
+from tkinter import simpledialog
 from multiprocessing.dummy import Pool as ThreadPool
 import subprocess
 import socket
 
 app=Tk()
 app.minsize(250,30)
-
-button=Button(app,text="Rescan")
-button.pack(side=BOTTOM,fill=X)
-
-scrollbar = Scrollbar(app)
-scrollbar.pack(side=RIGHT, fill=Y)
-
-listbox = Listbox(app, yscrollcommand=scrollbar.set)
-listbox.pack(side=LEFT, fill=BOTH, expand=True)
-
-scrollbar.config(command=listbox.yview)
 
 def ping(host):
 
@@ -29,6 +19,13 @@ def getip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(('8.8.8.8', 1))
     return s.getsockname()[0]
+
+def onDouble(event):
+        widget = event.widget
+        selection=widget.curselection()
+        ip = widget.get(selection[0])
+        user = simpledialog.askstring("Username", "Enter username:")
+        response = subprocess.call("ssh " + user + "@" + ip ,shell=True)
 
 def rescan():
 
@@ -60,7 +57,18 @@ def rescan():
             hostname = ''
         listbox.insert(END,host + "    " + str(hostname))
 
+button=Button(app,text="Rescan")
 button.config(command=rescan)
+button.pack(side=BOTTOM,fill=X)
+
+scrollbar = Scrollbar(app)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = Listbox(app, yscrollcommand=scrollbar.set)
+listbox.bind("<Double-Button-1>", onDouble)
+listbox.pack(side=LEFT, fill=BOTH, expand=True)
+
+scrollbar.config(command=listbox.yview)
 
 rescan()
 mainloop()
