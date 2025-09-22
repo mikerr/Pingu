@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from Tkinter import *
+from tkinter import *
 from multiprocessing.dummy import Pool as ThreadPool
 import subprocess
 import socket
@@ -47,18 +47,18 @@ def rescan():
     for i in range(255):
       hosts.append(subnet + str(i))
 
-    pool = ThreadPool(100)
+    pool = ThreadPool(255)
     results = pool.map(ping, hosts)
 
     livehosts.sort(key=lambda x:tuple(map(int, x.split('.'))))
     
     for host in livehosts:
         try:
-            hostname = subprocess.check_output("host -i " + host,shell=True)
+            hostname = subprocess.check_output("host -i " + host,text=True,shell=True)
             hostname = hostname.split()[-1]
         except:
             hostname = ''
-        listbox.insert(END,host + "    " + hostname)
+        listbox.insert(END,host + "    " + str(hostname))
 
 button.config(command=rescan)
 
