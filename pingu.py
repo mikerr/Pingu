@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from tkinter import *
 from multiprocessing.dummy import Pool as ThreadPool
 import subprocess
