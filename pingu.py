@@ -24,7 +24,7 @@ def onDouble(event):
         widget = event.widget
         selection=widget.curselection()
         ip = widget.get(selection[0])
-        user = simpledialog.askstring("Username", "Enter username:")
+        user = simpledialog.askstring("Username", "Enter username:",initialvalue="root")
         response = subprocess.call("ssh " + user + "@" + ip ,shell=True)
 
 def rescan():
